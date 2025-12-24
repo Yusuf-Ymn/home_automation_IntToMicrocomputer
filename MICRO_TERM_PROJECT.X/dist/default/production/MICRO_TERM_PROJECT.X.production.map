@@ -1,0 +1,106 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Thu Dec 25 00:49:40 2025
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x0001f6
+                   .cinit    romdata   0x0000fb    program   0x000004
+.config_2007_BUILD/DEFAULT/PRODUCTION/MAIN2.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x0000fc      
+                            0x002007    0x002007      
+            254 out of 8454 program addresses used, program memory utilization is 3%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     AC_L   0x00003c    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                  AC_YOLU   0x00003a    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                  ADC_OKU   0x0000d4    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                ANA_DONGU   0x000015    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               BIN_TO_BCD   0x0000ac    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                  GECIKME   0x0000f2    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+             GECIKME_KISA   0x0000ed    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               KAPAT_YOLU   0x000042    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               KONTROL_ET   0x00002b    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                     KP_L   0x000044    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                       LA   0x0000f4    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                       LB   0x0000f6    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+              LCD_DES_YAZ   0x000085    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+            LCD_EKRAN_YAZ   0x00005d    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                 LCD_INIT   0x0000d8    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                LCD_KOMUT   0x0000df    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                LCD_LINE2   0x00007a    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                LCD_MAN_M   0x000072    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+              LCD_VAL_BAS   0x00008b    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                 LCD_VERI   0x0000e6    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      L_E   0x0000d2    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      L_L   0x0000cb    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      L_S   0x0000ef    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               MANUEL_OKU   0x000023    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+             OTOMATIK_OKU   0x000017    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      O_C   0x0000b7    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      P_E   0x0000c7    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      P_L   0x0000c0    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+          SAYI_BAS_3DIGIT   0x0000a1    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+            SCALE_LDR_100   0x0000c9    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+            SCALE_POT_100   0x0000be    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                    SETUP   0x000001    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+          SINGLE_STEP_CCW   0x000051    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+           SINGLE_STEP_CW   0x00004a    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               STEP_TABLE   0x000058    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      W_D   0x0000d5    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      Y_C   0x0000b0    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    SETUP   0x000001    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                ANA_DONGU   0x000015    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+             OTOMATIK_OKU   0x000017    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               MANUEL_OKU   0x000023    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               KONTROL_ET   0x00002b    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                  AC_YOLU   0x00003a    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                     AC_L   0x00003c    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               KAPAT_YOLU   0x000042    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                     KP_L   0x000044    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+           SINGLE_STEP_CW   0x00004a    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+          SINGLE_STEP_CCW   0x000051    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               STEP_TABLE   0x000058    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+            LCD_EKRAN_YAZ   0x00005d    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                LCD_MAN_M   0x000072    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                LCD_LINE2   0x00007a    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+              LCD_DES_YAZ   0x000085    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+              LCD_VAL_BAS   0x00008b    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+          SAYI_BAS_3DIGIT   0x0000a1    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+               BIN_TO_BCD   0x0000ac    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      Y_C   0x0000b0    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      O_C   0x0000b7    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+            SCALE_POT_100   0x0000be    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      P_L   0x0000c0    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      P_E   0x0000c7    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+            SCALE_LDR_100   0x0000c9    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      L_L   0x0000cb    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      L_E   0x0000d2    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                  ADC_OKU   0x0000d4    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      W_D   0x0000d5    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                 LCD_INIT   0x0000d8    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                LCD_KOMUT   0x0000df    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                 LCD_VERI   0x0000e6    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+             GECIKME_KISA   0x0000ed    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                      L_S   0x0000ef    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                  GECIKME   0x0000f2    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                       LA   0x0000f4    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+                       LB   0x0000f6    program     static C:\Users\acer\MPLABXProjects\MICRO_TERM_PROJECT.X\main2.asm
+
+

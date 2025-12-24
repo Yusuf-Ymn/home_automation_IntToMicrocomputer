@@ -1,0 +1,5 @@
+Warning[205] C:\USERS\ACER\MPLABXPROJECTS\MICRO_TERM_PROJECT.X\MAIN2.ASM 1 : Found directive in column 1. (LIST)
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\MICRO_TERM_PROJECT.X\MAIN2.ASM 24 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\MICRO_TERM_PROJECT.X\MAIN2.ASM 26 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\MICRO_TERM_PROJECT.X\MAIN2.ASM 28 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\MICRO_TERM_PROJECT.X\MAIN2.ASM 30 : Register in operand not in bank 0.  Ensure that bank bits are correct.
