@@ -1,0 +1,118 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Fri Dec 26 22:39:09 2025
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000278
+                   .cinit    romdata   0x00013c    program   0x000004
+.config_2007_BUILD/DEFAULT/PRODUCTION/BOARD2_       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00013d      
+                            0x002007    0x002007      
+            319 out of 8454 program addresses used, program memory utilization is 3%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     AC_L   0x00005b    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  AC_YOLU   0x000059    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                   ADC_L1   0x000130    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  ADC_OKU   0x00012b    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                    ADC_W   0x00012d    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                ANA_DONGU   0x00001a    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               BCD_B_DONE   0x00011d    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               BCD_O_LOOP   0x000116    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                BCD_Y_INC   0x000113    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               BCD_Y_LOOP   0x00010b    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  G1_LOOP   0x000135    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  G2_LOOP   0x000137    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  GECIKME   0x000133    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               KAPAT_YOLU   0x000061    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               KONTROL_ET   0x00004a    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      K_L   0x000063    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+            LCD_EKRAN_YAZ   0x0000b7    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                 LCD_INIT   0x0000a1    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                LCD_KOMUT   0x0000a9    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                 LCD_VERI   0x0000b0    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      L_B   0x0000e9    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      L_D   0x0000e8    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                     L_L2   0x0000d4    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      L_M   0x0000cc    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               MANUEL_OKU   0x000027    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+             OTOMATIK_OKU   0x00001d    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                     S100   0x000040    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S20   0x000048    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S40   0x000046    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S60   0x000044    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S80   0x000042    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+       SAYI_BAS_ONDALIKLI   0x0000ed    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                    SETUP   0x000001    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+          SINGLE_STEP_CCW   0x000095    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+           SINGLE_STEP_CW   0x00008e    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               STEP_TABLE   0x00009c    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                    S_FIN   0x000049    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S_N   0x0000fd    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+    UART_PROTOKOL_KONTROL   0x000069    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+           UART_SEND_BYTE   0x00008a    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+       UART_SEND_LDR_HIGH   0x00007e    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+        UART_SEND_LDR_LOW   0x00007b    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+            UART_SET_HIGH   0x000081    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    SETUP   0x000001    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                ANA_DONGU   0x00001a    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+             OTOMATIK_OKU   0x00001d    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               MANUEL_OKU   0x000027    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                     S100   0x000040    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S80   0x000042    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S60   0x000044    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S40   0x000046    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S20   0x000048    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                    S_FIN   0x000049    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               KONTROL_ET   0x00004a    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  AC_YOLU   0x000059    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                     AC_L   0x00005b    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               KAPAT_YOLU   0x000061    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      K_L   0x000063    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+    UART_PROTOKOL_KONTROL   0x000069    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+        UART_SEND_LDR_LOW   0x00007b    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+       UART_SEND_LDR_HIGH   0x00007e    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+            UART_SET_HIGH   0x000081    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+           UART_SEND_BYTE   0x00008a    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+           SINGLE_STEP_CW   0x00008e    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+          SINGLE_STEP_CCW   0x000095    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               STEP_TABLE   0x00009c    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                 LCD_INIT   0x0000a1    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                LCD_KOMUT   0x0000a9    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                 LCD_VERI   0x0000b0    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+            LCD_EKRAN_YAZ   0x0000b7    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      L_M   0x0000cc    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                     L_L2   0x0000d4    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      L_D   0x0000e8    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      L_B   0x0000e9    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+       SAYI_BAS_ONDALIKLI   0x0000ed    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                      S_N   0x0000fd    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               BCD_Y_LOOP   0x00010b    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                BCD_Y_INC   0x000113    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               BCD_O_LOOP   0x000116    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+               BCD_B_DONE   0x00011d    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  ADC_OKU   0x00012b    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                    ADC_W   0x00012d    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                   ADC_L1   0x000130    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  GECIKME   0x000133    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  G1_LOOP   0x000135    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+                  G2_LOOP   0x000137    program     static C:\Users\acer\MPLABXProjects\BOARD2_FINAL_UARTTEST.X\board2_main.asm
+
+

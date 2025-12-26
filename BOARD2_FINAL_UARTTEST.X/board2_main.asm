@@ -1,0 +1,407 @@
+LIST P=16F877A
+    INCLUDE "P16F877A.INC"
+
+    __CONFIG _CP_OFF & _WDT_OFF & _BODEN_ON & _PWRTE_ON & _XT_OSC & _WRT_OFF & _LVP_OFF & _CPD_OFF
+
+    CBLOCK 0x20
+        SAYAC1, SAYAC2
+        DESIRED_ST, CURRENT_ST          
+        BIN_H, BIN_L                
+        YUZ_H, ON_H, BIR_H          
+        LDR_VAL, POT_VAL, TEMP_MATH
+        LAST_VAL, PHASE_STEP, ADIM_SAYAC
+        UART_TEMP
+    ENDC
+
+#define RS PORTB, 4
+#define EN PORTB, 5
+#define MOD_SWITCH PORTA, 2 
+
+    ORG 0x00
+    GOTO SETUP
+
+SETUP
+    BSF     STATUS, RP0     
+    CLRF    TRISD           
+    MOVLW   B'11000000'     
+    MOVWF   TRISB           
+    MOVLW   B'00000111'     
+    MOVWF   TRISA           
+    BCF     TRISC, 6        ; TX
+    BSF     TRISC, 7        ; RX
+    ; ADCON1 ayari: RA0, RA1, RA3 analog; RA2, RA5 dijital
+    MOVLW   B'00000100'     
+    MOVWF   ADCON1          
+    
+    MOVLW   D'25'           ; 9600 Baud
+    MOVWF   SPBRG
+    BCF     TXSTA, SYNC     
+    BSF     TXSTA, TXEN     
+    BCF     STATUS, RP0     
+    
+    BSF     RCSTA, SPEN     
+    BSF     RCSTA, CREN     
+    MOVLW   B'10000001'     
+    MOVWF   ADCON0
+    
+    CLRF    PHASE_STEP
+    CLRF    CURRENT_ST
+    MOVLW   0xFF
+    MOVWF   LAST_VAL
+    CALL    LCD_INIT
+    GOTO    ANA_DONGU
+
+ANA_DONGU
+    ; UART her zaman en tepede dinlenir
+    CALL    UART_PROTOKOL_KONTROL 
+
+    ; Eger MOD_SWITCH (RA2) 1 ise Manuel Mod
+    BTFSC   MOD_SWITCH      
+    GOTO    MANUEL_OKU
+
+OTOMATIK_OKU
+    MOVLW   B'10000001'     ; Kanal 0 (LDR)
+    MOVWF   ADCON0
+    CALL    ADC_OKU
+    MOVF    ADRESH, W
+    SUBLW   D'250'
+    BTFSS   STATUS, C
+    MOVLW   D'0'
+    MOVWF   LDR_VAL         
+    MOVWF   DESIRED_ST      
+    GOTO    KONTROL_ET
+
+MANUEL_OKU
+    MOVLW   B'10001001'     ; Kanal 1 (Pot)
+    MOVWF   ADCON0
+    CALL    ADC_OKU
+    ; Pot kademelerini belirle (0-250 arasi 5 kademe)
+    MOVLW   D'204'
+    SUBWF   ADRESH, W
+    BTFSC   STATUS, C
+    GOTO    S100
+    MOVLW   D'153'
+    SUBWF   ADRESH, W
+    BTFSC   STATUS, C
+    GOTO    S80
+    MOVLW   D'102'
+    SUBWF   ADRESH, W
+    BTFSC   STATUS, C
+    GOTO    S60
+    MOVLW   D'51'
+    SUBWF   ADRESH, W
+    BTFSC   STATUS, C
+    GOTO    S40
+    MOVLW   D'10'
+    SUBWF   ADRESH, W
+    BTFSC   STATUS, C
+    GOTO    S20
+    MOVLW   D'0'
+    GOTO    S_FIN
+S100 MOVLW D'250'
+    GOTO S_FIN
+S80  MOVLW D'200'
+    GOTO S_FIN
+S60  MOVLW D'150'
+    GOTO S_FIN
+S40  MOVLW D'100'
+    GOTO S_FIN
+S20  MOVLW D'50'
+S_FIN MOVWF DESIRED_ST
+
+KONTROL_ET
+    MOVF    DESIRED_ST, W
+    XORWF   LAST_VAL, W
+    BTFSS   STATUS, Z
+    CALL    LCD_EKRAN_YAZ   
+    MOVF    DESIRED_ST, W
+    MOVWF   LAST_VAL        
+
+    MOVF    CURRENT_ST, W
+    XORWF   DESIRED_ST, W
+    BTFSC   STATUS, Z       
+    GOTO    ANA_DONGU
+
+    MOVF    CURRENT_ST, W
+    SUBWF   DESIRED_ST, W
+    BTFSC   STATUS, C       
+    GOTO    KAPAT_YOLU      
+    GOTO    AC_YOLU         
+
+AC_YOLU
+    MOVLW   D'4'            ; 250 skalasinda her birim 4 adim = 1000 adim
+    MOVWF   ADIM_SAYAC
+AC_L CALL SINGLE_STEP_CW
+    DECFSZ ADIM_SAYAC, F
+    GOTO AC_L
+    DECF    CURRENT_ST, F   
+    CALL    LCD_EKRAN_YAZ   
+    GOTO    ANA_DONGU
+
+KAPAT_YOLU
+    MOVLW   D'4'
+    MOVWF   ADIM_SAYAC
+K_L CALL SINGLE_STEP_CCW
+    DECFSZ ADIM_SAYAC, F
+    GOTO K_L
+    INCF    CURRENT_ST, F   
+    CALL    LCD_EKRAN_YAZ   
+    GOTO    ANA_DONGU
+
+; --- UART PROTOKOL ---
+UART_PROTOKOL_KONTROL
+    BTFSS   PIR1, RCIF      
+    RETURN
+    MOVF    RCREG, W
+    MOVWF   UART_TEMP
+
+    MOVLW   B'00000111'     ; Get Light Low (fractional)
+    XORWF   UART_TEMP, W
+    BTFSC   STATUS, Z
+    GOTO    UART_SEND_LDR_LOW
+
+    MOVLW   B'00010000'     ; Get Light High (integral)
+    XORWF   UART_TEMP, W
+    BTFSC   STATUS, Z
+    GOTO    UART_SEND_LDR_HIGH
+
+    MOVF    UART_TEMP, W
+    ANDLW   B'11000000'
+    XORLW   B'11000000'     ; Set Curtain (11xxxxxx)
+    BTFSC   STATUS, Z
+    GOTO    UART_SET_HIGH
+    RETURN
+
+UART_SEND_LDR_LOW
+    MOVF    BIR_H, W        
+    CALL    UART_SEND_BYTE
+    RETURN
+
+UART_SEND_LDR_HIGH
+    MOVF    ON_H, W         
+    CALL    UART_SEND_BYTE
+    RETURN
+
+UART_SET_HIGH
+    MOVF    UART_TEMP, W
+    ANDLW   B'00111111'     ; 6-bit degeri al
+    MOVWF   TEMP_MATH
+    BCF     STATUS, C
+    RLF     TEMP_MATH, F    ; x2
+    RLF     TEMP_MATH, F    ; x4 (Yaklasik 250 skalasi)
+    MOVF    TEMP_MATH, W
+    MOVWF   DESIRED_ST      
+    RETURN
+
+UART_SEND_BYTE
+    BTFSS   PIR1, TXIF
+    GOTO    UART_SEND_BYTE
+    MOVWF   TXREG
+    RETURN
+
+; --- MOTOR RUTINLERI ---
+SINGLE_STEP_CW
+    INCF PHASE_STEP, F
+    MOVF PHASE_STEP, W
+    ANDLW 0x03
+    CALL STEP_TABLE
+    MOVWF PORTB
+    CALL GECIKME
+    RETURN
+
+SINGLE_STEP_CCW
+    DECF PHASE_STEP, F
+    MOVF PHASE_STEP, W
+    ANDLW 0x03
+    CALL STEP_TABLE
+    MOVWF PORTB
+    CALL GECIKME
+    RETURN
+
+STEP_TABLE
+    ADDWF PCL, F
+    RETLW B'0001'
+    RETLW B'0010'
+    RETLW B'0100'
+    RETLW B'1000'
+
+; --- LCD RUTINLERI ---
+LCD_INIT
+    CALL GECIKME
+    MOVLW 0x38
+    CALL LCD_KOMUT
+    MOVLW 0x0C
+    CALL LCD_KOMUT
+    MOVLW 0x01
+    CALL LCD_KOMUT
+    RETURN
+
+LCD_KOMUT
+    MOVWF PORTD
+    BCF RS
+    BSF EN
+    NOP
+    BCF EN
+    CALL GECIKME
+    RETURN
+
+LCD_VERI
+    MOVWF PORTD
+    BSF RS
+    BSF EN
+    NOP
+    BCF EN
+    CALL GECIKME
+    RETURN
+
+LCD_EKRAN_YAZ
+    MOVLW   0x80            
+    CALL    LCD_KOMUT
+    MOVLW   'M'
+    CALL    LCD_VERI
+    MOVLW   'O'
+    CALL    LCD_VERI
+    MOVLW   'D'
+    CALL    LCD_VERI
+    MOVLW   ' '
+    CALL    LCD_VERI
+    BTFSC   MOD_SWITCH
+    GOTO    L_M
+    MOVLW   'A'
+    CALL    LCD_VERI
+    MOVLW   'U'
+    CALL    LCD_VERI
+    MOVLW   'T'
+    CALL    LCD_VERI
+    MOVLW   'O'
+    CALL    LCD_VERI
+    GOTO    L_L2
+L_M
+    MOVLW   'M'
+    CALL    LCD_VERI
+    MOVLW   'A'
+    CALL    LCD_VERI
+    MOVLW   'N'
+    CALL    LCD_VERI
+    MOVLW   ' '
+    CALL    LCD_VERI
+L_L2
+    MOVLW   0xC0            
+    CALL    LCD_KOMUT
+    BTFSC   MOD_SWITCH
+    MOVF    DESIRED_ST, W   
+    BTFSS   MOD_SWITCH
+    MOVF    LDR_VAL, W      
+    CALL    SAYI_BAS_ONDALIKLI
+    MOVLW   '%'
+    CALL    LCD_VERI
+    MOVLW   ' '
+    CALL    LCD_VERI
+    MOVLW   ' '
+    CALL    LCD_VERI
+    BTFSC   MOD_SWITCH
+    GOTO    L_D
+    MOVF    CURRENT_ST, W
+    SUBLW   D'250'
+    BTFSS   STATUS, C
+    MOVLW   D'0'
+    GOTO    L_B
+L_D
+    MOVF    CURRENT_ST, W
+L_B
+    CALL    SAYI_BAS_ONDALIKLI
+    MOVLW   '%'
+    CALL    LCD_VERI
+    RETURN
+
+SAYI_BAS_ONDALIKLI
+    MOVWF   TEMP_MATH
+    MOVLW   D'250'
+    SUBWF   TEMP_MATH, W
+    BTFSS   STATUS, C       
+    GOTO    S_N
+    MOVLW   '1'
+    CALL    LCD_VERI
+    MOVLW   '0'
+    CALL    LCD_VERI
+    MOVLW   '0'
+    CALL    LCD_VERI
+    MOVLW   '.'
+    CALL    LCD_VERI
+    MOVLW   '0'
+    CALL    LCD_VERI
+    RETURN
+S_N
+    MOVLW   ' '
+    CALL    LCD_VERI
+    CLRF    BIN_H
+    MOVF    TEMP_MATH, W
+    MOVWF   BIN_L
+    BCF     STATUS, C
+    RLF     BIN_L, F
+    RLF     BIN_H, F
+    BCF     STATUS, C
+    RLF     BIN_L, F
+    RLF     BIN_H, F
+    CLRF    YUZ_H
+    CLRF    ON_H
+    CLRF    BIR_H
+BCD_Y_LOOP
+    MOVLW D'100'
+    SUBWF BIN_L, W
+    BTFSC STATUS, C
+    GOTO BCD_Y_INC
+    MOVF BIN_H, F
+    BTFSC STATUS, Z
+    GOTO BCD_O_LOOP
+    DECF BIN_H, F
+BCD_Y_INC
+    INCF YUZ_H, F
+    MOVWF BIN_L
+    GOTO BCD_Y_LOOP
+BCD_O_LOOP
+    MOVLW D'10'
+    SUBWF BIN_L, W
+    BTFSS STATUS, C
+    GOTO BCD_B_DONE
+    MOVWF BIN_L
+    INCF ON_H, F
+    GOTO BCD_O_LOOP
+BCD_B_DONE
+    MOVF BIN_L, W
+    MOVWF BIR_H
+    MOVF YUZ_H, W
+    ADDLW 0x30
+    CALL LCD_VERI
+    MOVF ON_H, W
+    ADDLW 0x30
+    CALL LCD_VERI
+    MOVLW '.'
+    CALL LCD_VERI
+    MOVF BIR_H, W
+    ADDLW 0x30
+    CALL LCD_VERI
+    RETURN
+
+ADC_OKU
+    MOVLW D'20'
+    MOVWF SAYAC1
+ADC_W DECFSZ SAYAC1, F
+    GOTO ADC_W
+    BSF ADCON0, GO
+ADC_L1 BTFSC ADCON0, GO
+    GOTO ADC_L1
+    RETURN
+
+GECIKME
+    MOVLW D'5'
+    MOVWF SAYAC1
+G1_LOOP MOVLW D'255'
+    MOVWF SAYAC2
+G2_LOOP DECFSZ SAYAC2, F
+    GOTO G2_LOOP
+    DECFSZ SAYAC1, F
+    GOTO G1_LOOP
+    RETURN
+
+    END

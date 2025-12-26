@@ -1,0 +1,10 @@
+Warning[205] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 1 : Found directive in column 1. (LIST)
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 27 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 29 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 30 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 31 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 34 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 37 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 38 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ACER\MPLABXPROJECTS\BOARD2_FINAL_UARTTEST.X\BOARD2_MAIN.ASM 39 : Register in operand not in bank 0.  Ensure that bank bits are correct.
