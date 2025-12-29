@@ -111,7 +111,3 @@ python tests/api_test_program.py
 - Kapsamli hata yonetimi
 - Input validasyon
 - Test coverage
-
-## Lisans
-
-Bu proje egitim amacli geliştirilmistir.

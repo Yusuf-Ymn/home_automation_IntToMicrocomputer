@@ -22,7 +22,6 @@ GET_FAN_SPEED_RPS = 0x05
 # Low:  10xxxxxx formatında (kesirli kısım)
 # High: 11xxxxxx formatında (tam kısım)
 
-# Document rule (keypad): 10.0 .. 50.0 inclusive, 1 decimal digit
 MIN_DESIRED_TEMP_C = 10.0
 MAX_DESIRED_TEMP_C = 50.0
 
@@ -63,7 +62,6 @@ def decode_get_response(cmd: int, data_byte: int, state: AirState) -> AirState:
     elif cmd == GET_AMBIENT_TEMP_HIGH:
         state.ambient_temp.integral = b & PAYLOAD_MASK_6BIT
     elif cmd == GET_FAN_SPEED_RPS:
-        # Fan hızı tam byte olarak gelir (0-255)
         state.fan_speed_rps = b
 
     return state

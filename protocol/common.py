@@ -26,7 +26,6 @@ def split_1dp(value: float) -> Tuple[int, int]:
     if value < 0:
         raise ValueError("value must be >= 0")
 
-    # Round to 1 decimal reliably
     rounded = round(float(value), 1)
     integral = int(rounded)
     frac_digit = int(round((rounded - integral) * 10))

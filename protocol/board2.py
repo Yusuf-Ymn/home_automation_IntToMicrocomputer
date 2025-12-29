@@ -19,9 +19,8 @@ GET_OUTDOOR_TEMP_HIGH     = 0x04
 GET_OUTDOOR_PRESS_LOW     = 0x05
 GET_OUTDOOR_PRESS_HIGH    = 0x06
 GET_LIGHT_INTENSITY_LOW   = 0x07
+GET_LIGHT_INTENSITY_HIGH  = 0x08
 
-# Işık yoğunluğu high byte için varsayılan değer
-# (Protokol belirsizliği: 0x08 veya 0x10 olabilir)
 GET_LIGHT_INTENSITY_HIGH_DEFAULT = 0x08
 
 
@@ -31,8 +30,8 @@ GET_LIGHT_INTENSITY_HIGH_DEFAULT = 0x08
 
 @dataclass
 class CurtainState:
-    desired_curtain: Fixed1dp = field(default_factory=lambda: Fixed1dp(50, 0))   # percent (approx)
-    outdoor_temp: Fixed1dp = field(default_factory=lambda: Fixed1dp(20, 0))      # °C
+    desired_curtain: Fixed1dp = field(default_factory=lambda: Fixed1dp(50, 0))   # yüzde
+    outdoor_temp: Fixed1dp = field(default_factory=lambda: Fixed1dp(20, 0))      # C
     outdoor_press: Fixed1dp = field(default_factory=lambda: Fixed1dp(1013, 0))   # hPa
     light_intensity: Fixed1dp = field(default_factory=lambda: Fixed1dp(300, 0))  # Lux
 
@@ -86,6 +85,6 @@ def decode_get_response(cmd: int, data_byte: int, state: CurtainState, *, light_
         state.outdoor_press.integral = b
     elif cmd == GET_LIGHT_INTENSITY_LOW:
         state.light_intensity.frac_digit = b
-    elif cmd == light_high_cmd:
+    elif cmd == light_high_cmd or cmd == GET_LIGHT_INTENSITY_HIGH:
         state.light_intensity.integral = b
     return state

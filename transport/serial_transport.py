@@ -30,7 +30,7 @@ class SerialTransport(Transport):
                 bytesize=serial.EIGHTBITS,
                 parity=serial.PARITY_NONE,
                 stopbits=serial.STOPBITS_ONE,
-                timeout=0.1,  # non-blocking reads; we implement timeout logic
+                timeout=0.1,
             )
         except Exception as e:
             raise TransportError(f"Failed to open serial port {self.port}: {e}") from e

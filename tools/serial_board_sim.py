@@ -17,14 +17,14 @@ from home_automation.protocol.common import PAYLOAD_MASK_6BIT, Fixed1dp
 def run_board1(port: str, baud: int):
     """Board #1 (klima) simülatörünü çalıştırır."""
     ser = serial.Serial(port, baudrate=baud, timeout=0.1)
-    st = board1.AirState()  # default: desired=25.0, ambient=24.0, fan=0
+    st = board1.AirState()  # default değer: desired=25.0, ambient=24.0, fan=0
 
     last_drift = time.time()
 
     while True:
-        # Ortam sıcaklığını istenen sıcaklığa doğru yavaşça kaydır (gerçekçi simülasyon)
+        # Ortam sıcaklığını istenen sıcaklığa doğru yavaşça kaydır
         now = time.time()
-        if now - last_drift >= 0.25:  # every 250 ms
+        if now - last_drift >= 0.25: 
             last_drift = now
 
             amb = st.ambient_temp.to_float()
@@ -81,7 +81,8 @@ def run_board2(port: str, baud: int, light_high_cmd: int):
     st = board2.CurtainState()
 
     # Varsayılan değerler (byte sınırları içinde)
-    st.desired_curtain = Fixed1dp(32, 0)    # raw 0..63 -> ~50.8%
+    st.desired_curtain = Fixed1dp(32, 0)    # raw 0..63 -> 50.8%
+    st.outdoor_temp = Fixed1dp(20, 0)       # 20.0 C
     st.outdoor_press = Fixed1dp(101, 3)     # 101.3 hPa
     st.light_intensity = Fixed1dp(200, 0)   # 200.0 Lux
 
@@ -106,7 +107,7 @@ def run_board2(port: str, baud: int, light_high_cmd: int):
             ser.write(bytes([st.outdoor_press.integral & 0xFF]))
         elif cmd == board2.GET_LIGHT_INTENSITY_LOW:
             ser.write(bytes([st.light_intensity.frac_digit & 0xFF]))
-        elif cmd == light_high_cmd:
+        elif cmd == light_high_cmd or cmd == board2.GET_LIGHT_INTENSITY_HIGH:
             ser.write(bytes([st.light_intensity.integral & 0xFF]))
 
         # SET komutları (0-63 aralığında)
@@ -127,8 +128,11 @@ def main():
     t1 = threading.Thread(target=run_board1, args=(args.b1, args.baud), daemon=True)
     t2 = threading.Thread(target=run_board2, args=(args.b2, args.baud, args.light_high_cmd), daemon=True)
 
+
+
+    #BOARD İLE BAŞARILI BAĞLANTI KURULURSA YORUM SATIRINA ALMALISINIZ!
     t1.start()
-    t2.start()
+    #t2.start()
 
     print(f"Serial board sim running: Board1={args.b1}, Board2={args.b2}, baud={args.baud}")
     try:

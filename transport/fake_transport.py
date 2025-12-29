@@ -25,7 +25,7 @@ class FakeTransport(Transport):
     Her board için ayrı FakeTransport instance'ı oluşturulur.
     """
 
-    board: str  # "board1" or "board2"
+    board: str  # "board1" veya "board2"
     light_high_cmd: int = board2.GET_LIGHT_INTENSITY_HIGH_DEFAULT
 
     _open: bool = False
@@ -79,16 +79,12 @@ class FakeTransport(Transport):
         elif cmd == board1.GET_FAN_SPEED_RPS:
             self._rx_queue.append(self.air_state.fan_speed_rps & 0xFF)
 
-        # SET komutlarını işle (prefix 10 / 11)
         elif (cmd & 0b1100_0000) == 0b1000_0000:
-            # LOW (fraction digit, 0..63)
             self.air_state.desired_temp.frac_digit = cmd & PAYLOAD_MASK_6BIT
 
         elif (cmd & 0b1100_0000) == 0b1100_0000:
-            # HIGH (integral, 0..63)
             self.air_state.desired_temp.integral = cmd & PAYLOAD_MASK_6BIT
 
-            # Basit kontrol mantığı: istenen > ortam ise fan çalıştır
             desired = join_1dp(
                 self.air_state.desired_temp.integral,
                 self.air_state.desired_temp.frac_digit,
@@ -98,7 +94,6 @@ class FakeTransport(Transport):
                 self.air_state.ambient_temp.frac_digit,
             )
 
-            # Fan hızı simülasyonu (istenen > ortam ise 30 rps)
             self.air_state.fan_speed_rps = 30 if desired > ambient else 0
 
     def _handle_board2(self, cmd: int) -> None:
@@ -115,14 +110,13 @@ class FakeTransport(Transport):
         elif cmd == board2.GET_OUTDOOR_PRESS_LOW:
             self._rx_queue.append(cs.outdoor_press.frac_digit & 0xFF)
         elif cmd == board2.GET_OUTDOOR_PRESS_HIGH:
-            # Basınç 255'ı aşabilir, burada 0-255'e sınırlanır
             self._rx_queue.append(cs.outdoor_press.integral & 0xFF)
         elif cmd == board2.GET_LIGHT_INTENSITY_LOW:
             self._rx_queue.append(cs.light_intensity.frac_digit & 0xFF)
-        elif cmd == self.light_high_cmd:
+        elif cmd == self.light_high_cmd or cmd == board2.GET_LIGHT_INTENSITY_HIGH:
             self._rx_queue.append(cs.light_intensity.integral & 0xFF)
 
-        # SET commands
+        # SET komutları
         elif (cmd & 0b1100_0000) == 0b1000_0000:
             cs.desired_curtain.frac_digit = cmd & PAYLOAD_MASK_6BIT
         elif (cmd & 0b1100_0000) == 0b1100_0000:
@@ -134,9 +128,13 @@ class FakeTransport(Transport):
         """Simülasyon için varsayılan değerleri ayarlar."""
         cs = self.curtain_state
 
-        # Perde: 0-63 aralığında (50% ≈ 32)
+        # Perde: 0-63 aralığında (50% = 32)
         cs.desired_curtain.integral = 32
         cs.desired_curtain.frac_digit = 0
+
+        # Dış sıcaklık: 20.0 C
+        cs.outdoor_temp.integral = 20
+        cs.outdoor_temp.frac_digit = 0
 
         # Dış basınç: Tek byte'a sığacak değer (101.3 hPa)
         cs.outdoor_press.integral = 101

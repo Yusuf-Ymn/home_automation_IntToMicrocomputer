@@ -24,7 +24,7 @@ class CurtainControlSystemConnection:
 
     # Protokol belirsizliği için ayarlanabilir parametreler
     light_high_cmd: int = board2.GET_LIGHT_INTENSITY_HIGH_DEFAULT
-    curtain_set_mode: str = "scaled_0_63"  # "scaled_0_63" or "raw_0_63"
+    curtain_set_mode: str = "scaled_0_63"  # "scaled_0_63" veya "raw_0_63"
 
     def update(self) -> None:
         """Board'dan güncel verileri okur (perde durumu, dış ortam verileri vb.)"""
