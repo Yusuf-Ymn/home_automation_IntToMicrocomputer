@@ -1,3 +1,4 @@
+
 LIST P=16F877A
     INCLUDE "P16F877A.INC"
 
@@ -28,32 +29,43 @@ LIST P=16F877A
 
 SETUP
     BSF     STATUS, RP0
-    CLRF    TRISD
+    CLRF    TRISD          
     MOVLW   B'11000000'
-    MOVWF   TRISB
-    MOVLW   B'00000111'
+    MOVWF   TRISB           
+    MOVLW   B'00000111'   
     MOVWF   TRISA
-    BCF     TRISC, 6
-    BSF     TRISC, 7
-    MOVLW   D'25'
+    
+    BCF     TRISC, 6        
+    BSF     TRISC, 7        
+    
+    MOVLW   D'25'           
     MOVWF   SPBRG
-    MOVLW   B'00100100'
+    MOVLW   B'00100100'     
     MOVWF   TXSTA
-    MOVLW   B'00000100'
+    
+    MOVLW   B'00000100'     
     MOVWF   ADCON1
+    
     BCF     STATUS, RP0
-    MOVLW   B'10010000'
+    MOVLW   B'10010000'    
     MOVWF   RCSTA
-    MOVLW   B'10000001'
+    MOVLW   B'10000001'    
     MOVWF   ADCON0
+    
     CLRF    SYSTEM_MODE
     CLRF    PHASE_STEP
     CLRF    UART_LOW_BYTE
+    
     MOVLW   D'32'
     MOVWF   DESIRED_ST
     MOVWF   CURRENT_ST
     MOVLW   0xFF
     MOVWF   LAST_DISP_ST
+    
+    MOVF    RCREG, W
+    MOVF    RCREG, W
+    MOVF    RCREG, W
+    
     CALL    LCD_INIT
     CALL    EKRAN_SABLON
     GOTO    ANA_DONGU
@@ -61,10 +73,12 @@ SETUP
 ANA_DONGU
     CALL    UART_DINLE_VE_ISLE
     CALL    SENSORLERI_OKU
+    
     MOVF    SYSTEM_MODE, W
     SUBLW   D'2'
     BTFSC   STATUS, Z
     GOTO    ISLEM_PC
+    
     BTFSC   SW_MAN
     GOTO    ISLEM_MANUEL
     GOTO    ISLEM_AUTO
@@ -72,12 +86,14 @@ ANA_DONGU
 ISLEM_MANUEL
     MOVLW   D'1'
     MOVWF   SYSTEM_MODE
+    
     MOVF    POT_VAL, W
     MOVWF   TEMP_MATH
     BCF     STATUS, C
-    RRF     TEMP_MATH, F
+    RRF     TEMP_MATH, F    
     BCF     STATUS, C
-    RRF     TEMP_MATH, W
+    RRF     TEMP_MATH, W   
+    
     MOVWF   DESIRED_ST
     CALL    LIMIT_63
     GOTO    UYGULA
@@ -85,14 +101,17 @@ ISLEM_MANUEL
 ISLEM_AUTO
     MOVLW   D'0'
     MOVWF   SYSTEM_MODE
+    
     MOVLW   D'100'
     SUBWF   LDR_VAL, W
-    BTFSS   STATUS, C
+    BTFSS   STATUS, C       
     GOTO    AUTO_KARANLIK
-    CLRF    DESIRED_ST
+    
+    CLRF    DESIRED_ST      
     GOTO    UYGULA
+    
 AUTO_KARANLIK
-    MOVLW   D'63'
+    MOVLW   D'63'           
     MOVWF   DESIRED_ST
 
 UYGULA
@@ -117,15 +136,26 @@ SET_MAX_63
     RETURN
 
 SENSORLERI_OKU
-    MOVLW   B'10000001'
+    BCF     STATUS, RP0     
+    MOVLW   B'10000001'    
     MOVWF   ADCON0
     CALL    GECIKME_ADC_SETUP
+    
+    
     BSF     ADCON0, GO
-WT_LDR
+WT_LDR1
     BTFSC   ADCON0, GO
-    GOTO    WT_LDR
+    GOTO    WT_LDR1
+    MOVF    ADRESH, W       
+    
+    BSF     ADCON0, GO
+WT_LDR2
+    BTFSC   ADCON0, GO
+    GOTO    WT_LDR2
+    
     MOVF    ADRESH, W
     MOVWF   TEMP_MATH
+    
     MOVF    LDR_VAL, W
     SUBWF   TEMP_MATH, W
     BTFSC   STATUS, Z
@@ -133,13 +163,25 @@ WT_LDR
     MOVF    TEMP_MATH, W
     MOVWF   LDR_VAL
 LDR_SKIP
-    MOVLW   B'10001001'
+
+    
+    MOVLW   B'10001001'     
     MOVWF   ADCON0
     CALL    GECIKME_ADC_SETUP
+    
+    
     BSF     ADCON0, GO
-WT_POT
+WT_POT1
     BTFSC   ADCON0, GO
-    GOTO    WT_POT
+    GOTO    WT_POT1
+    MOVF    ADRESH, W       
+    
+    
+    BSF     ADCON0, GO
+WT_POT2
+    BTFSC   ADCON0, GO
+    GOTO    WT_POT2
+    
     MOVF    ADRESH, W
     MOVWF   POT_VAL
     RETURN
@@ -175,7 +217,7 @@ DRIVE
     CALL    STEP_TABLE
     MOVWF   TEMP_MATH
     MOVF    PORTB, W
-    ANDLW   B'11110000'
+    ANDLW   B'11110000'     
     IORWF   TEMP_MATH, W
     MOVWF   PORTB
     CALL    GECIKME_MOTOR
@@ -192,87 +234,81 @@ UART_DINLE_VE_ISLE
     BANKSEL PIR1
     BTFSS   PIR1, RCIF
     RETURN
+    
     BANKSEL RCSTA
     BTFSC   RCSTA, OERR
     GOTO    UART_ERR
+    
     BANKSEL RCREG
     MOVF    RCREG, W
     MOVWF   UART_TEMP
-    BANKSEL 0
+    BANKSEL 0               
+    
     MOVLW   0x01
     SUBWF   UART_TEMP, W
     BTFSC   STATUS, Z
     GOTO    TX_DESIRED_LOW
+    
     MOVLW   0x02
     SUBWF   UART_TEMP, W
     BTFSC   STATUS, Z
     GOTO    TX_DESIRED_HIGH
-    MOVLW   0x03
-    SUBWF   UART_TEMP, W
-    BTFSC   STATUS, Z
-    GOTO    TX_TEMP_LOW
-    MOVLW   0x04
-    SUBWF   UART_TEMP, W
-    BTFSC   STATUS, Z
-    GOTO    TX_TEMP_HIGH
-    MOVLW   0x05
-    SUBWF   UART_TEMP, W
-    BTFSC   STATUS, Z
-    GOTO    TX_PRESS_LOW
-    MOVLW   0x06
-    SUBWF   UART_TEMP, W
-    BTFSC   STATUS, Z
-    GOTO    TX_PRESS_HIGH
+    
     MOVLW   0x07
     SUBWF   UART_TEMP, W
     BTFSC   STATUS, Z
     GOTO    TX_LIGHT_LOW
+    
     MOVLW   0x08
     SUBWF   UART_TEMP, W
     BTFSC   STATUS, Z
     GOTO    TX_LIGHT_HIGH
+    
     MOVF    UART_TEMP, W
     ANDLW   B'11000000'
     XORLW   B'10000000'
     BTFSC   STATUS, Z
     GOTO    UART_SET_LOW
+    
     MOVF    UART_TEMP, W
     ANDLW   B'11000000'
     XORLW   B'11000000'
     BTFSC   STATUS, Z
     GOTO    UART_SET_HIGH
+    
+    MOVLW   0x03
+    SUBWF   UART_TEMP, W
+    BTFSC   STATUS, Z
+    GOTO    TX_DUMMY
+    MOVLW   0x04
+    SUBWF   UART_TEMP, W
+    BTFSC   STATUS, Z
+    GOTO    TX_DUMMY
+    MOVLW   0x05
+    SUBWF   UART_TEMP, W
+    BTFSC   STATUS, Z
+    GOTO    TX_DUMMY
+    MOVLW   0x06
+    SUBWF   UART_TEMP, W
+    BTFSC   STATUS, Z
+    GOTO    TX_DUMMY
+    
     RETURN
 
 TX_DESIRED_LOW
     MOVLW   D'0'
     GOTO    TX_W
-
 TX_DESIRED_HIGH
     MOVF    CURRENT_ST, W
     GOTO    TX_W
-
-TX_TEMP_LOW
-    MOVLW   D'0'
-    GOTO    TX_W
-
-TX_TEMP_HIGH
-    MOVLW   D'20'
-    GOTO    TX_W
-
-TX_PRESS_LOW
-    MOVLW   D'3'
-    GOTO    TX_W
-
-TX_PRESS_HIGH
-    MOVLW   D'101'
-    GOTO    TX_W
-
 TX_LIGHT_LOW
     MOVLW   D'0'
     GOTO    TX_W
-
 TX_LIGHT_HIGH
     MOVF    LDR_VAL, W
+    GOTO    TX_W
+TX_DUMMY
+    MOVLW   D'0'
     GOTO    TX_W
 
 TX_W
@@ -292,7 +328,7 @@ UART_SET_LOW
     RETURN
 
 UART_SET_HIGH
-    MOVLW   D'2'
+    MOVLW   D'2'            
     MOVWF   SYSTEM_MODE
     MOVF    UART_TEMP, W
     ANDLW   B'00111111'
@@ -320,8 +356,10 @@ YAZDIR
     MOVWF   LAST_DISP_ST
     MOVF    LDR_VAL, W
     MOVWF   LAST_LDR
+    
     MOVLW   0x86
     CALL    LCD_KOMUT
+    
     MOVF    SYSTEM_MODE, W
     SUBLW   D'2'
     BTFSC   STATUS, Z
@@ -336,14 +374,12 @@ W_PC
     MOVLW   'C'
     CALL    LCD_VERI
     GOTO    W_VALS
-
 W_MAN
     MOVLW   'M'
     CALL    LCD_VERI
     MOVLW   'A'
     CALL    LCD_VERI
     GOTO    W_VALS
-
 W_AUTO
     MOVLW   'O'
     CALL    LCD_VERI
@@ -354,12 +390,11 @@ W_VALS
     MOVLW   0xC2
     CALL    LCD_KOMUT
     MOVF    LDR_VAL, W
-    CALL    SAYI_0_255_TO_PERCENT
     CALL    SAYI_BAS
     MOVLW   0xCB
     CALL    LCD_KOMUT
     MOVF    CURRENT_ST, W
-    CALL    SAYI_0_63_TO_PERCENT
+    CALL    SAYI_63_TO_PERCENT
     CALL    SAYI_BAS
     RETURN
 
@@ -367,29 +402,30 @@ SAYI_0_255_TO_PERCENT
     MOVWF   BIN_L
     RETURN
 
-SAYI_0_63_TO_PERCENT
+SAYI_63_TO_PERCENT
     MOVWF   BIN_L
     MOVWF   TEMP_MATH
     BCF     STATUS, C
     RRF     TEMP_MATH, F
     MOVF    TEMP_MATH, W
+    ADDWF   BIN_L, F        
+    
+    BCF     STATUS, C
+    RRF     TEMP_MATH, F    
+    BCF     STATUS, C
+    RRF     TEMP_MATH, F    
+    BCF     STATUS, C
+    RRF     TEMP_MATH, W    
     ADDWF   BIN_L, F
-    BCF     STATUS, C
-    RRF     TEMP_MATH, F
-    BCF     STATUS, C
-    RRF     TEMP_MATH, F
-    BCF     STATUS, C
-    RRF     TEMP_MATH, W
-    ADDWF   BIN_L, W
-    MOVWF   BIN_L
+    
+    MOVF    BIN_L, W
     RETURN
 
 SAYI_BAS
-    MOVF    BIN_L, W
+    MOVWF   BIN_L           
     CLRF    YUZ_H
     CLRF    ON_H
     CLRF    BIR_H
-
 L_Y
     MOVLW   D'100'
     SUBWF   BIN_L, W
@@ -398,7 +434,6 @@ L_Y
     MOVWF   BIN_L
     INCF    YUZ_H, F
     GOTO    L_Y
-
 L_O
     MOVLW   D'10'
     SUBWF   BIN_L, W
@@ -407,10 +442,10 @@ L_O
     MOVWF   BIN_L
     INCF    ON_H, F
     GOTO    L_O
-
 L_B
     MOVF    BIN_L, W
     MOVWF   BIR_H
+    
     MOVF    YUZ_H, W
     ADDLW   0x30
     CALL    LCD_VERI
@@ -436,7 +471,7 @@ G_M_INNER
     RETURN
 
 GECIKME_ADC_SETUP
-    MOVLW   D'20'
+    MOVLW   D'50'
     MOVWF   SAYAC1
 G_ADC
     DECFSZ  SAYAC1, F

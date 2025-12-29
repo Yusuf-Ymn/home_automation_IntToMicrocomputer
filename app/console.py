@@ -76,8 +76,10 @@ def curtain_control_menu(cur: CurtainControlSystemConnection, port: str, baud: i
     while True:
         try:
             cur.update()
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"DEBUG: update() exception: {e}")
+            import traceback
+            traceback.print_exc()
 
         print("\nOutdoor Temperature:", fmt_1dp(cur.getOutdoorTemp()), "°C")
         print("Outdoor Pressure:", fmt_1dp(cur.getOutdoorPress()), "hPa")
