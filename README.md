@@ -1,113 +1,121 @@
 # Home Automation System
 
-IntToMicrocomputer Dersi Term Projesi - PC tarafli kontrol yazilimi.
+**ESOGU – Introduction to Microcomputers (Term Project)**
 
-## Proje Hakkinda
+This is the PC Control Software for our Home Automation Project. It communicates with two **PIC16F877A** boards using the **UART** protocol.
 
-Bu proje, UART protokolu uzerinden iki farkli mikroislemci karti ile haberlesmeyi saglayan bir ev otomasyon kontrol sistemidir.
+---
 
-**Board #1 - Klima Sistemi:**
-- Istenen sicaklik ayarlama (10.0-50.0°C)
-- Ortam sicakligini okuma
-- Fan hizini kontrol etme
+## About the Project
 
-**Board #2 - Perde Kontrol Sistemi:**
-- Perde aciklik oranini ayarlama (0-100%)
-- Dis ortam sicakligini okuma
-- Dis ortam basincini okuma
-- Isik yogunlugunu okuma
+In this project, we designed a system with two main modules. This software runs on the computer and allows the user to monitor and control these modules.
 
-## Gereksinimler
+### Board #1: Air Conditioner System
 
-- Python 3.7 veya uzeri
-- PySerial (sadece gercek donanim ile calisma icin)
+* **Set Desired Temperature:** User can set a value between **10.0°C** and **50.0°C**.
+* **Read Ambient Temperature:** Displays the current room temperature.
+* **Fan Speed:** Shows the fan speed (**rps**) based on the heating needs.
 
-## Kurulum
+### Board #2: Curtain Control System
+
+* **Set Curtain Position:** User can open/close the curtain (**0–100%**).
+* **Read Light Intensity:** Displays the light level (**Lux**) from the sensor.
+
+---
+
+## Requirements
+
+* Python **3.7** or higher
+* **PySerial** library (for real hardware communication)
+
+---
+
+## Installation
+
+Clone the repository:
 
 ```bash
-# Repository'yi klonlayin
 git clone https://github.com/Yusuf-Ymn/home_automation_IntToMicrocomputer.git
 cd home_automation_IntToMicrocomputer
+```
 
-# Gerekli kutuphaneleri yukleyin
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-## Kullanim
+---
 
-### Simulasyon Modu (Donanim Olmadan)
+## How to Run
 
-Gercek donanim gerektirmez, her sey bellekte simule edilir:
+### 1) Simulation Mode (No Hardware)
+
+You can test the interface without connecting any boards. This uses the `FakeTransport` layer.
 
 ```bash
 python -m home_automation.app.console --fake
 ```
 
-### Gercek Donanim ile Kullanim
+### 2) Real Hardware Mode
 
-COM portlarinizi belirterek gercek kartlarla calisabilirsiniz:
+If you have the PIC boards connected to your computer via USB-TTL converters, use this command. Replace `COM3` and `COM5` with your actual ports.
 
 ```bash
 python -m home_automation.app.console --port1 COM3 --port2 COM5 --baud 9600
 ```
 
-**Parametreler:**
-- `--port1`: Board #1 (Klima) icin COM port
-- `--port2`: Board #2 (Perde) icin COM port
-- `--baud`: Baud rate (varsayilan: 9600)
+* `--port1`: COM port for Air Conditioner (Board 1)
+* `--port2`: COM port for Curtain Control (Board 2)
+* `--baud`: Baud rate (Default: **9600**)
 
-### Serial Port Simulatoru
+### 3) Board Simulator (PC-to-PC Test)
 
-Sanal COM portlari (com0com gibi) ile test icin board simulatoru:
+If you want to test the serial logic using virtual ports (like **com0com**) instead of real PICs:
 
 ```bash
-python -m home_automation.tools.serial_board_sim --b1 COM11 --b2 COM13 --baud 9600
+python -m home_automation.tools.serial_board_sim --b1 COM11 --b2 COM13
 ```
 
-## Proje Yapisi
+---
 
-```
+## Project Structure
+
+```text
 home_automation/
-├── api/                    # Yuksek seviye API
-│   ├── air_conditioner.py  # Klima kontrolu
-│   ├── curtain_control.py  # Perde kontrolu
-│   └── common.py           # Ortak baglanti yonetimi
-├── app/                    # Kullanici arayuzu
-│   └── console.py          # Konsol tabanli uygulama
-├── protocol/               # UART protokol katmani
-│   ├── board1.py           # Board #1 protokol tanimlari
-│   ├── board2.py           # Board #2 protokol tanimlari
-│   └── common.py           # Ortak encoding/decoding
-├── transport/              # Iletisim katmani
-│   ├── base.py             # Transport interface
-│   ├── fake_transport.py   # Simulasyon transport
-│   └── serial_transport.py # Gercek seri port transport
-├── tests/                  # Test dosyalari
+├── api/                   # High-Level API Layer
+│   ├── air_conditioner.py  # Logic for Board 1
+│   ├── curtain_control.py  # Logic for Board 2
+│   └── common.py           # Shared connection logic
+├── app/                   # User Interface
+│   └── console.py          # Main console menu application
+├── protocol/              # UART Protocol Layer (Bit manipulation)
+│   ├── board1.py           # Command definitions for Board 1
+│   ├── board2.py           # Command definitions for Board 2
+│   └── common.py           # Encoding/Decoding helpers
+├── transport/             # Communication Layer
+│   ├── base.py             # Abstract base class
+│   ├── fake_transport.py   # For testing without hardware
+│   └── serial_transport.py # Real PySerial implementation
+├── tests/                 # Unit Tests
 │   ├── api_test_program.py
 │   └── test_protocol_ranges.py
-└── tools/                  # Yardimci araclar
-    └── serial_board_sim.py # Serial board simulatoru
+└── tools/                 # Helper Tools
+    └── serial_board_sim.py # Python-based board simulator
 ```
 
-## Test
+---
 
-### Unit Testler
+## Testing
+
+To run the unit tests for protocol logic:
 
 ```bash
 python -m unittest tests.test_protocol_ranges
 ```
 
-### API Testleri
+To run the API functionality test:
 
 ```bash
-python tests/api_test_program.py
+python home_automation/tests/api_test_program.py
 ```
-
-## Ozellikler
-
-- Katmanli mimari (Transport -> Protocol -> API -> App)
-- Donanim olmadan gelistirme (FakeTransport)
-- Gercek seri port destegi (PySerial)
-- Kapsamli hata yonetimi
-- Input validasyon
-- Test coverage
