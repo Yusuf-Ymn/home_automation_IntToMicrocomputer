@@ -4,6 +4,8 @@
 
 This is the PC Control Software for our Home Automation Project. It communicates with two **PIC16F877A** boards using the **UART** protocol.
 
+For a complete overview of the system architecture, implementation details, and project documentation, please refer to the "Report_Home_Automation.docx" file included in this repository.
+
 ---
 
 ## About the Project
